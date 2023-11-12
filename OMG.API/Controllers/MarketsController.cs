@@ -25,9 +25,9 @@ namespace OMG.API.Controllers
 
         // GET api/<MarketController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<Market> Get(string id)
         {
-            return "value";
+            return await _marketRepo.GetItemAsync(id);
         }
 
         // POST api/<MarketController>
