@@ -264,3 +264,4 @@ __pycache__/
 *.pyc
 /OMG.API/Properties/PublishProfiles/openmarketguideapi - Web Deploy.pubxml
 /OMG.API/Properties/ServiceDependencies/openmarketguideapi - Web Deploy/profile.arm.json
+/OMG.API/Properties/launchSettings.json
