@@ -4,7 +4,7 @@ using OMG.Domain.Market.Models;
 
 namespace OMG.Infrastructure.CosmosDbData.Repository
 {
-    public class MarketRepository : CosmosDbRepository<Market>, IMarketRepository
+    public class MarketInstanceRepository : CosmosDbRepository<MarketInstance>, IMarketInstanceRepository
     {
         /// <summary>
         ///     CosmosDB container name
@@ -17,7 +17,7 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public override string GenerateId(Market entity) => $"{entity.State}:{Guid.NewGuid()}";
+        public override string GenerateId(MarketInstance entity) => $"{entity.MarketId}:{entity.StartDate.ToString("ddMMyyyyHHmmss")}";
         //public override string GenerateId(Market entity) => $"{Guid.NewGuid()}";
         /// <summary>
         ///     Returns the value of the partition key
@@ -26,20 +26,20 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         /// <returns></returns>
         public override PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey(entityId.Split(':')[0]);
 
-        public MarketRepository(ICosmosDbContainerFactory factory) : base(factory)
+        public MarketInstanceRepository(ICosmosDbContainerFactory factory) : base(factory)
         { }
 
         // Use Cosmos DB Parameterized Query to avoid SQL Injection.
         // Get by Category is also an example of single partition read, where get by title will be a cross partition read
-        public async Task<IEnumerable<Market>> GetItemsAsyncByState(string state)
+        public async Task<IEnumerable<MarketInstance>> GetMarketInstancesByMarketIdAsync(string marketId)
         {
-            string query = @$"SELECT * FROM c WHERE c.state = @state AND c.marketEntityType = 'Template'";
+            string query = @$"SELECT * FROM c WHERE c.marketId = @marketId AND c.marketEntityType = 'Instance'";
 
             QueryDefinition queryDefinition = new QueryDefinition(query)
-                                                    .WithParameter("@state", state);
+                                                    .WithParameter("@marketId", marketId);
             string queryString = queryDefinition.QueryText;
 
-            IEnumerable<Market> entities = await this.GetItemsAsync(queryString);
+            IEnumerable<MarketInstance> entities = await this.GetItemsAsync(queryString);
 
             return entities;
         }

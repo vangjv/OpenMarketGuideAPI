@@ -1,8 +1,11 @@
 using Azure.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Azure;
+using Microsoft.Identity.Web;
 using OMG.API.Config;
 using OMG.Infrastructure.Extensions;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 
 
@@ -24,6 +27,9 @@ builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.PropertyNameCaseInsensitive = true;
 });
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+       .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
+builder.Services.AddAuthorization();
 // Add services to the container.
 builder.Services.AddControllers(opts => opts.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -54,6 +60,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.EnsureCosmosDbIsCreated();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");

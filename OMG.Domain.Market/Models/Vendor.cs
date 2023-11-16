@@ -4,12 +4,14 @@ namespace OMG.Domain.Market.Models
 {
     public class Vendor
     {
-        public Guid VendorId { get; private set; }
-        public string Name { get; private set; }
-        public string Category { get; private set; }
-        public ContactInfo ContactInfo { get; private set; }
+        public string VendorId { get; set; }
+        public string Name { get; set; }
+        public string PrimaryContactName { get; set; }
+        public string PrimaryContactTitle { get; set; }
+        public string Category { get; set; }
+        public ContactInfo ContactInfo { get; set; }
 
-        public Vendor(Guid vendorId, string name, string category, ContactInfo contactInfo)
+        public Vendor(string vendorId, string name, string category, ContactInfo contactInfo)
         {
             VendorId = vendorId;
             Name = name;
@@ -17,6 +19,5 @@ namespace OMG.Domain.Market.Models
             ContactInfo = contactInfo;
         }
 
-        // Additional methods and behaviors
     }
 }

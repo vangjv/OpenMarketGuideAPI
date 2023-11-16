@@ -1,40 +1,42 @@
-﻿//using OMG.SharedKernel.Interfaces.Storage;
-//using Microsoft.AspNetCore.Http;
-//using Storage.Net.Blobs;
-//using System;
-//using System.IO;
-//using System.Threading.Tasks;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
-//namespace OMG.Infrastructure.Services
-//{
-//    /// <summary>
-//    ///     Azure Blob Storage
-//    /// </summary>
-//    public class AzureBlobStorageService : IStorageService
-//    {
-//        private readonly IBlobStorage _blobStorage;
+namespace OMG.Infrastructure.Services
+{
+    public class AzureBlobStorageService
+    {
+        private readonly BlobServiceClient _blobServiceClient;
 
-//        public AzureBlobStorageService(IBlobStorage blobStorage)
-//        {
-//            _blobStorage = blobStorage ?? throw new ArgumentNullException(nameof(blobStorage));
-//        }
+        public AzureBlobStorageService(string connectionString)
+        {
+            _blobServiceClient = new BlobServiceClient(connectionString);
+        }
 
-//        public async Task<string> UploadFile(IFormFile file, string fullPath)
-//        {
-//            using (Stream str = file.OpenReadStream())
-//            {
-//                await _blobStorage.WriteAsync(fullPath, str, false);
-//            }
+        public async Task UploadBlobAsync(string containerName, string blobName, Stream content)
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
 
-//            return fullPath;
-//        }
+            var blobClient = containerClient.GetBlobClient(blobName);
+            await blobClient.UploadAsync(content, true);
+        }
 
-//        public async Task<Stream> GetFileStream(string filePath)
-//        {
-//            MemoryStream ms = new MemoryStream();
-//            await _blobStorage.ReadToStreamAsync(filePath, ms);
-//            return ms;
-//        }
+        public async Task DeleteBlobAsync(string containerName, string blobName)
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            var blobClient = containerClient.GetBlobClient(blobName);
+            await blobClient.DeleteIfExistsAsync();
+        }
 
-//    }
-//}
+        public async Task<Stream> GetBlobAsync(string containerName, string blobName)
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            var blobClient = containerClient.GetBlobClient(blobName);
+            var response = await blobClient.DownloadAsync();
+            return response.Value.Content;
+        }
+    }
+}
