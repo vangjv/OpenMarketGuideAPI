@@ -18,7 +18,7 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         /// <param name="entity"></param>
         /// <returns></returns>
         //public override string GenerateId(ThreeDModelInfo entity) => $"{entity.MarketId}:{entity.StartDate.ToString("ddMMyyyyHHmmss")}";
-        public override string GenerateId(ThreeDModelCollection entity) => $"{Guid.NewGuid()}";
+        public override string GenerateId(ThreeDModelCollection entity) => entity.Owner;
         /// <summary>
         ///     Returns the value of the partition key
         /// </summary>
@@ -28,7 +28,6 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
 
         public ThreeDModelCollectionRepository(ICosmosDbContainerFactory factory) : base(factory)
         { }
-
 
     }
 }

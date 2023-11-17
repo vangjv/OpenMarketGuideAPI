@@ -17,24 +17,24 @@ namespace OMG.API.Controllers
         }
         // GET: api/models
         [HttpGet]
-        public async Task<IEnumerable<ThreeDModelCollection>> Get()
+        public async Task<ThreeDModelCollection> Get()
         {
-            return await _modelsRepo.GetItemsAsync("SELECT * FROM c");
+            return await _modelsRepo.GetItemAsync("public");
         }
 
         [HttpGet("me")]
-        public async Task<IEnumerable<ThreeDModelCollection>> GetMine()
+        public async Task<ThreeDModelCollection> GetMine()
         {
             var currentUserOid = User.GetOid();
-            return await _modelsRepo.GetThreeDModelCollectionsAsyncByUser(currentUserOid);
+            return await _modelsRepo.GetItemAsync(currentUserOid);
         }
 
-        // GET api/models/5
-        [HttpGet("{id}")]
-        public async Task<ThreeDModelCollection> Get(string id)
-        {
-            return await _modelsRepo.GetItemAsync(id);
-        }
+        //// GET api/models/5
+        //[HttpGet("{id}")]
+        //public async Task<ThreeDModelCollection> Get(string id)
+        //{
+        //    return await _modelsRepo.GetItemAsync(id);
+        //}
 
         //[Authorize]
         //// POST api/models
