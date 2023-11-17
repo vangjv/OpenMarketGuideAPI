@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using OMG.Domain.Market.Enums;
 using OMG.Domain.Market.Models;
 using OMG.Infrastructure.CosmosDbData.Interfaces;
-using OMG.Infrastructure.Extensions;
+using OMG.API.Extensions;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OMG.API.Controllers
@@ -67,13 +66,31 @@ namespace OMG.API.Controllers
             }
             market.Vendors.Add(vendor);
             var savedMarket = await _marketRepo.UpdateItemAsync(id, market);
-            return savedMarket;
+            return Ok(savedMarket);
         }
 
         // PUT api/market/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<Market>> Put(string id, [FromBody] Market marketUpdate)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }            
+            var market = await _marketRepo.GetItemAsync($"{id}");
+            if (market == null)
+            {
+                return NotFound();
+            }
+            if (!market.UserIsMarketOwner(User))
+            {
+                return Unauthorized();
+            }
+            market.ThreeDModelEntities = marketUpdate.ThreeDModelEntities;
+            market.VendorLocations = marketUpdate.VendorLocations;
+            market.MarketLocation = marketUpdate.MarketLocation;
+            var savedMarket = await _marketRepo.UpdateItemAsync(id, market);
+            return Ok(savedMarket);
         }
 
         // DELETE api/market/5

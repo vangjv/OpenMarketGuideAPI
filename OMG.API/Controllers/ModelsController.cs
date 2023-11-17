@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OMG.Domain.Market.Models;
 using OMG.Infrastructure.CosmosDbData.Interfaces;
-using OMG.Infrastructure.Extensions;
+using OMG.API.Extensions;
 
 namespace OMG.API.Controllers
 {

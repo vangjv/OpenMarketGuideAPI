@@ -35,26 +35,6 @@ namespace OMG.Domain.Market.Models
         //    VendorLocation = new List<VendorLocation>();
         //}
 
-        public void AddMarketOwnerFromClaimsPrincipal (ClaimsPrincipal User)
-        {
-            if (User != null) {
-                MarketUser newMarketUser = new MarketUser();
-                var objectId = User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
-                var userName = User.FindFirst("name")?.Value;
-                newMarketUser.Id = objectId;
-                newMarketUser.Name = userName;
-                newMarketUser.Role = "Owner";
-                if (MarketUsers == null)
-                {
-                    MarketUsers = new List<MarketUser>
-                    {
-                        newMarketUser
-                    };
-                } else
-                {
-                    MarketUsers.Add(newMarketUser);
-                }
-            }
-        }
+        
     }
 }

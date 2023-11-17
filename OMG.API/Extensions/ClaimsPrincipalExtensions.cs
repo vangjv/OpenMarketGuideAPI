@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-namespace OMG.Infrastructure.Extensions
+namespace OMG.API.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
