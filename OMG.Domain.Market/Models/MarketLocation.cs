@@ -2,8 +2,8 @@
 
 namespace OMG.Domain.Market.Models
 {
-    public class VendorLocation :Location
+    public class MarketLocation :Location
     {
-        public bool IsAvailable { get; set; }
+        
     }
 }
