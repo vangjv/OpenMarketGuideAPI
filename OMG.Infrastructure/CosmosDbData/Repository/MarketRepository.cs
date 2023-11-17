@@ -44,5 +44,18 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
             return entities;
         }
 
+        public async Task<IEnumerable<Market>> GetMarketsAsyncByUser(string userId)
+        {
+            string query = @$"SELECT * FROM c WHERE ARRAY_CONTAINS(c.MarketUsers, {{'Id':  @userId}}, true) AND c.MarketEntityType = 'Template'";
+
+            QueryDefinition queryDefinition = new QueryDefinition(query)
+                                                    .WithParameter("@userId", userId);
+            string queryString = queryDefinition.QueryText;
+
+            IEnumerable<Market> entities = await this.GetItemsAsync(queryString);
+
+            return entities;
+        }
+
     }
 }

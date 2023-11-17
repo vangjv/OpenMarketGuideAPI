@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using OMG.Domain.Market.Enums;
 using OMG.Domain.Market.Models;
 using OMG.Infrastructure.CosmosDbData.Interfaces;
-
+using OMG.Infrastructure.Extensions;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OMG.API.Controllers
@@ -24,6 +25,13 @@ namespace OMG.API.Controllers
             return await _marketRepo.GetItemsAsync("SELECT * FROM c");
         }
 
+        [HttpGet("me")]
+        public async Task<IEnumerable<Market>> GetMine()
+        {
+            var currentUserOid = User.GetOid();
+            return await _marketRepo.GetMarketsAsyncByUser(currentUserOid);
+        }
+
         // GET api/markets/5
         [HttpGet("{id}")]
         public async Task<Market> Get(string id)
@@ -36,12 +44,9 @@ namespace OMG.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Market>> PostAsync([FromBody] Market market)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var userClaims = User.Claims;
             market.AddMarketOwnerFromClaimsPrincipal(User);
+            market.MarketEntityType = MarketEntityType.Template;
             var savedMarket = await _marketRepo.AddItemAsync(market);
             return savedMarket;
         }
