@@ -70,6 +70,7 @@ namespace OMG.API.Controllers
         }
 
         // PUT api/market/5
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<Market>> Put(string id, [FromBody] Market marketUpdate)
         {
