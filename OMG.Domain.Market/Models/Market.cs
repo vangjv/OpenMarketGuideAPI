@@ -18,12 +18,7 @@ namespace OMG.Domain.Market.Models
         public List<ThreeDModelEntity> ThreeDModelEntities { get; set; }
         public List<Vendor> Vendors { get; set; }
         public List<MarketUser> MarketUsers { get; set; }
-        public Market(string name, string description, string state)
-        {
-            Name = name;
-            Description = description;
-            State = state;
-        }
+     
         public new int SchemaVersion = SchemaVersionConfig.MarketCurrentSchemaVersion;
 
         public MarketInstance ToMarketInstance(DateTime startDate, DateTime endDate)
@@ -36,6 +31,7 @@ namespace OMG.Domain.Market.Models
             marketInstance.EndDate = endDate;
             marketInstance.State = State;
             marketInstance.Location = Location;
+            marketInstance.MarketLocation = MarketLocation;
             marketInstance.VendorLocations = VendorLocations;
             marketInstance.Description = Description;
             marketInstance.ThreeDModelEntities = ThreeDModelEntities;

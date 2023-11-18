@@ -8,16 +8,9 @@ namespace OMG.Domain.Market.Models
         public string Name { get; set; }
         public string PrimaryContactName { get; set; }
         public string PrimaryContactTitle { get; set; }
-        public string Category { get; set; }
+        public List<string> Category { get; set; }
         public ContactInfo ContactInfo { get; set; }
-
-        public Vendor(string vendorId, string name, string category, ContactInfo contactInfo)
-        {
-            VendorId = vendorId;
-            Name = name;
-            Category = category;
-            ContactInfo = contactInfo;
-        }
+        public List<Product> Products { get; set; }
 
     }
 }
