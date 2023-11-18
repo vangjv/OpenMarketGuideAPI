@@ -7,7 +7,6 @@ namespace OMG.Domain.Market.Models
 {
     public class MarketInstance:BaseEntity
     {
-        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
         public MarketEntityType MarketEntityType { get; set; } = MarketEntityType.Template;
         public string MarketId { get; set; }
         public string Name { get; set; }

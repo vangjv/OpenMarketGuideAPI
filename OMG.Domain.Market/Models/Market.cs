@@ -29,6 +29,7 @@ namespace OMG.Domain.Market.Models
         public MarketInstance ToMarketInstance(DateTime startDate, DateTime endDate)
         {
             MarketInstance marketInstance = new MarketInstance();
+            marketInstance.Name = Name;
             marketInstance.MarketId = Id;
             marketInstance.MarketEntityType = MarketEntityType.Instance;
             marketInstance.StartDate = startDate;

@@ -33,14 +33,11 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         // Get by Category is also an example of single partition read, where get by title will be a cross partition read
         public async Task<IEnumerable<MarketInstance>> GetMarketInstancesByMarketIdAsync(string marketId)
         {
-            string query = @$"SELECT * FROM c WHERE c.marketId = @marketId AND c.marketEntityType = 'Instance'";
-
-            QueryDefinition queryDefinition = new QueryDefinition(query)
-                                                    .WithParameter("@marketId", marketId);
-            string queryString = queryDefinition.QueryText;
-
+            string query = @$"SELECT * FROM c WHERE c.MarketEntityType = 1 AND c.MarketId ='" + marketId + "'";
+            QueryDefinition queryDefinition = new QueryDefinition(query);
+            //queryDefinition.WithParameter("@marketId", marketId);
+            string queryString = queryDefinition.QueryText;            
             IEnumerable<MarketInstance> entities = await this.GetItemsAsync(queryString);
-
             return entities;
         }
 
