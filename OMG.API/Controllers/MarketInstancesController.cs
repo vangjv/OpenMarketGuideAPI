@@ -70,16 +70,17 @@ namespace OMG.API.Controllers
             {
                 return NotFound();
             }
-            if (!marketInstance.UserIsMarketOwner(User))
+            if (marketInstance.UserIsMarketOwner(User) || marketInstance.UserIsMarketVendor(User))
+            {
+                marketInstance.ThreeDModelEntities = marketInstanceUpdate.ThreeDModelEntities;
+                marketInstance.VendorLocations = marketInstanceUpdate.VendorLocations;
+                marketInstance.MarketLocation = marketInstanceUpdate.MarketLocation;
+                var savedMarketInstance = await _marketInstanceRepo.UpdateItemAsync(id, marketInstance);
+                return Ok(savedMarketInstance); 
+            } else
             {
                 return Unauthorized();
-            }
-            marketInstance.ThreeDModelEntities = marketInstanceUpdate.ThreeDModelEntities;
-            marketInstance.VendorLocations = marketInstanceUpdate.VendorLocations;
-            marketInstance.MarketLocation = marketInstanceUpdate.MarketLocation;
-            var savedMarketInstance = await _marketInstanceRepo.UpdateItemAsync(id, marketInstance);
-            return Ok(savedMarketInstance);
+            }       
         }
-
     }
 }

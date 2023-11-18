@@ -43,5 +43,18 @@ namespace OMG.API.Extensions
             return userIsOwner;
         }
 
+        public static bool UserIsMarketVendor(this Market market, ClaimsPrincipal user)
+        {
+            bool userIsVendor = false;
+            market.MarketUsers.ForEach(usr =>
+            {
+                if (usr.Id == user.GetOid() && usr.Role == "Vendor")
+                {
+                    userIsVendor = true;
+                }
+            });
+            return userIsVendor;
+        }
+
     }
 }
