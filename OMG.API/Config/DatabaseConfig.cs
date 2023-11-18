@@ -24,6 +24,7 @@ namespace OMG.API.Config
                                  cosmosDbConfig.Containers);
 
             services.AddScoped<IMarketRepository, MarketRepository>();
+            services.AddScoped<IMarketInstanceRepository, MarketInstanceRepository>();
             services.AddScoped<IThreeDModelCollectionRepository, ThreeDModelCollectionRepository>();
         }
     }

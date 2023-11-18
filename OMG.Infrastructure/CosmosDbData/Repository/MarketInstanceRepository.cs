@@ -17,7 +17,7 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public override string GenerateId(MarketInstance entity) => $"{entity.MarketId}:{entity.StartDate.ToString("ddMMyyyyHHmmss")}";
+        public override string GenerateId(MarketInstance entity) => $"{entity.MarketId}:{entity.StartDate.ToString("ddMMyyyyHHmm")}";
         //public override string GenerateId(Market entity) => $"{Guid.NewGuid()}";
         /// <summary>
         ///     Returns the value of the partition key

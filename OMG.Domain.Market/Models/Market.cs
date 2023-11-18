@@ -25,15 +25,23 @@ namespace OMG.Domain.Market.Models
             State = state;
         }
         public new int SchemaVersion = SchemaVersionConfig.MarketCurrentSchemaVersion;
-        //public Market(string name, string description,string state, Location location, Boundary boundaries)
-        //{
-        //    Name = name;
-        //    Description = description;
-        //    State = state;
-        //    Location = location;
-        //    Boundaries = boundaries;
-        //    VendorLocation = new List<VendorLocation>();
-        //}
+
+        public MarketInstance ToMarketInstance(DateTime startDate, DateTime endDate)
+        {
+            MarketInstance marketInstance = new MarketInstance();
+            marketInstance.MarketId = Id;
+            marketInstance.MarketEntityType = MarketEntityType.Instance;
+            marketInstance.StartDate = startDate;
+            marketInstance.EndDate = endDate;
+            marketInstance.State = State;
+            marketInstance.Location = Location;
+            marketInstance.VendorLocations = VendorLocations;
+            marketInstance.Description = Description;
+            marketInstance.ThreeDModelEntities = ThreeDModelEntities;
+            marketInstance.MarketUsers = MarketUsers;
+            marketInstance.Vendors = Vendors;
+            return marketInstance;
+        }
 
         
     }
