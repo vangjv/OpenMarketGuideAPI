@@ -56,5 +56,30 @@ namespace OMG.API.Controllers
             return Ok(savedMarket);
         }
 
+        // PUT api/market/5
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Market>> Put(string id, [FromBody] MarketInstance marketInstanceUpdate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var marketInstance = await _marketInstanceRepo.GetItemAsync($"{id}");
+            if (marketInstance == null)
+            {
+                return NotFound();
+            }
+            if (!marketInstance.UserIsMarketOwner(User))
+            {
+                return Unauthorized();
+            }
+            marketInstance.ThreeDModelEntities = marketInstanceUpdate.ThreeDModelEntities;
+            marketInstance.VendorLocations = marketInstanceUpdate.VendorLocations;
+            marketInstance.MarketLocation = marketInstanceUpdate.MarketLocation;
+            var savedMarketInstance = await _marketInstanceRepo.UpdateItemAsync(id, marketInstance);
+            return Ok(savedMarketInstance);
+        }
+
     }
 }

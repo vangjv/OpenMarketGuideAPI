@@ -1,4 +1,4 @@
-﻿namespace OMG.Domain.Market.Models
+﻿namespace OMG.Domain.Market.ValueObjects
 {
     public class ThreeDModel
     {
