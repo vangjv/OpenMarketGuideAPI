@@ -3,6 +3,6 @@
     public class VendorLocation :Location
     {
         public bool IsAvailable { get; set; } = true;
-        public string AssignedVendorId { get; set; }
+        public Vendor AssignedVendor { get; set; }
     }
 }

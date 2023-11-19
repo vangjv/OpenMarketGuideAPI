@@ -56,6 +56,37 @@ namespace OMG.API.Controllers
             return Ok(savedMarket);
         }
 
+        [Authorize]
+        // POST api/marketinstances/{id}/vendor
+        [HttpPost("{id}/vendor")]
+        public async Task<ActionResult<Market>> AssignVendor(string id, [FromBody] AssignVendorRequest assignVendorRequest)
+        {
+            //check if market instance exist
+            var marketInstance = await _marketInstanceRepo.GetItemAsync(id);
+            if (marketInstance == null)
+            {
+                return NotFound();
+            }
+            //check if vendorlocation exist
+            var vendorLocation = marketInstance.VendorLocations.FirstOrDefault(vl => vl.Id == assignVendorRequest.VendorLocationId);
+            if (vendorLocation == null) {
+                return NotFound();
+            }
+            //check if user has access to create instance
+            if (!marketInstance.UserIsMarketOwner(User))
+            {
+                return Unauthorized();
+            }
+            //find vendorlocation by id and add vendor 
+            var newVendor = new Vendor();
+            newVendor.Id = new Guid().ToString();
+            newVendor.Name = assignVendorRequest.Name;
+            newVendor.Categories = assignVendorRequest.Categories;
+            vendorLocation.AssignedVendor = newVendor;
+            var updatedMarketInstance = await _marketInstanceRepo.UpdateItemAsync(id, marketInstance);
+            return Ok(updatedMarketInstance);
+        }
+
         // PUT api/market/5
         [Authorize]
         [HttpPut("{id}")]
