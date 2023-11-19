@@ -79,7 +79,7 @@ namespace OMG.API.Controllers
             }
             //find vendorlocation by id and add vendor 
             var newVendor = new Vendor();
-            newVendor.Id = new Guid().ToString();
+            newVendor.Id = Guid.NewGuid().ToString();
             newVendor.Name = assignVendorRequest.Name;
             newVendor.Categories = assignVendorRequest.Categories;
             vendorLocation.AssignedVendor = newVendor;
