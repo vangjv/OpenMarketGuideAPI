@@ -9,7 +9,7 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         /// <summary>
         ///     CosmosDB container name
         /// </summary>
-        public override string ContainerName { get; } = "Vendors";
+        public override string ContainerName { get; } = "Metadata";
 
         /// <summary>
         ///     Generate Id.
@@ -17,7 +17,7 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public override string GenerateId(VendorDM entity) => $"Guid.NewGuid()";
+        public override string GenerateId(VendorDM entity) => entity.Id;
         /// <summary>
         ///     Returns the value of the partition key
         /// </summary>

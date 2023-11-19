@@ -43,7 +43,9 @@ namespace OMG.API.Controllers
             {
                 return BadRequest("A vendor already exist");
             }
-            var createdVendor = await _vendorsRepo.AddItemAsync(new VendorDM(newVendor));
+            var vendorDM = new VendorDM(newVendor);
+            vendorDM.Id = currentUserOid;
+            var createdVendor = await _vendorsRepo.AddItemAsync(vendorDM);
             return Ok(createdVendor.ToVendor());
         }
 

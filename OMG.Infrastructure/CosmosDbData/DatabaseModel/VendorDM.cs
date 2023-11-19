@@ -5,6 +5,7 @@ namespace OMG.Infrastructure.CosmosDbData.DatabaseModel
     public class VendorDM : Vendor, IMetadata
     {
         public string Type { get; } = "Vendor";
+        public VendorDM() { }
         public VendorDM(Vendor vendor)
         {
             Name = vendor.Name;
