@@ -87,6 +87,20 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
             return results;
         }
 
+        public async Task<IEnumerable<T>> GetItemsAsync(QueryDefinition queryDefinition)
+        {
+            FeedIterator<T> resultSetIterator = _container.GetItemQueryIterator<T>(queryDefinition);
+            List<T> results = new List<T>();
+            while (resultSetIterator.HasMoreResults)
+            {
+                FeedResponse<T> response = await resultSetIterator.ReadNextAsync();
+
+                results.AddRange(response.ToList());
+            }
+
+            return results;
+        }
+
         public async Task<T> UpdateItemAsync(string id, T item)
         {
             // Update

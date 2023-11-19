@@ -19,15 +19,17 @@ namespace OMG.API.Controllers
 
         [Authorize]
         [HttpGet("me")]
-        public async Task<ActionResult<Vendor>> GetMyVendor()
+        public async Task<ActionResult<List<Vendor>>> GetMyVendor()
         {
             var currentUserOid = User.GetOid();
-            var vendor = await _vendorsRepo.GetItemAsync(currentUserOid);
-            if (vendor == null)
+            var vendors = await _vendorsRepo.GetMyVendorsAsync(currentUserOid);
+            if (vendors == null)
             {
                 return NotFound();
             }
-            return Ok(vendor.ToVendor());
+            var vendorList = new List<Vendor>();
+            vendors.ToList().ForEach(v => vendorList.Add(v.ToVendor()));
+            return Ok(vendorList);
         }
 
 
@@ -36,15 +38,9 @@ namespace OMG.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Vendor>> PostAsync([FromBody] Vendor newVendor)
         {
-            var currentUserOid = User.GetOid();
-            //check if vendor already exist with oid
-            var vendor = await _vendorsRepo.GetItemAsync(currentUserOid);
-            if (vendor != null)
-            {
-                return BadRequest("A vendor already exist");
-            }
             var vendorDM = new VendorDM(newVendor);
-            vendorDM.Id = currentUserOid;
+            VendorUser vendorUser = new VendorUser { Id = User.GetOid(), Role = "Owner", Name = User.GetUserName() };
+            vendorDM.Users.Add(vendorUser);   
             var createdVendor = await _vendorsRepo.AddItemAsync(vendorDM);
             return Ok(createdVendor.ToVendor());
         }

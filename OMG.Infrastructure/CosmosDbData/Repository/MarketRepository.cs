@@ -46,13 +46,12 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
 
         public async Task<IEnumerable<Market>> GetMarketsAsyncByUser(string userId)
         {
-            string query = @$"SELECT * FROM c WHERE ARRAY_CONTAINS(c.MarketUsers, {{'Id':  @userId, 'Role':'Owner'}}, true) AND c.MarketEntityType = 0";
+            string query = "SELECT * FROM c WHERE ARRAY_CONTAINS(c.MarketUsers, {'Id':  @userId, 'Role':'Owner'}, true) AND c.MarketEntityType = 0";
 
             QueryDefinition queryDefinition = new QueryDefinition(query)
                                                     .WithParameter("@userId", userId);
-            string queryString = queryDefinition.QueryText;
 
-            IEnumerable<Market> entities = await this.GetItemsAsync(queryString);
+            IEnumerable<Market> entities = await this.GetItemsAsync(queryDefinition);
 
             return entities;
         }
