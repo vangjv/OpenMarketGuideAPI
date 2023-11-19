@@ -26,6 +26,7 @@ namespace OMG.API.Config
             services.AddScoped<IMarketRepository, MarketRepository>();
             services.AddScoped<IMarketInstanceRepository, MarketInstanceRepository>();
             services.AddScoped<IThreeDModelCollectionRepository, ThreeDModelCollectionRepository>();
+            services.AddScoped<IVendorRepository, VendorRepository>();
         }
     }
 }

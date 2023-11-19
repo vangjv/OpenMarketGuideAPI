@@ -1,12 +1,9 @@
 using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.Extensions.Azure;
 using Microsoft.Identity.Web;
 using OMG.API.Config;
 using OMG.Infrastructure.Extensions;
-using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,8 +30,8 @@ builder.Services.AddAuthorization();
 // Add services to the container.
 builder.Services.AddControllers(opts => opts.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
 // Cosmos DB for application data
 builder.Services.SetupCosmosDb(Configuration);
 //builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -56,8 +53,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseCors("CorsPolicy");
-app.UseSwagger();
-app.UseSwaggerUI();
+//app.UseSwagger();
+//app.UseSwaggerUI();
 app.EnsureCosmosDbIsCreated();
 app.UseHttpsRedirection();
 app.UseAuthentication();

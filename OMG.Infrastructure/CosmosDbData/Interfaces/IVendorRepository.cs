@@ -2,7 +2,7 @@
 
 namespace OMG.Infrastructure.CosmosDbData.Interfaces
 {
-    public interface IThreeDModelCollectionRepository : IRepository<ThreeDModelCollectionDM>
+    public interface IVendorRepository : IRepository<VendorDM>
     {
     }
 }

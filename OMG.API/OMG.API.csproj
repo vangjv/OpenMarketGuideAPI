@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OMG.Domain.Market\OMG.Domain.Market.csproj" />
+    <ProjectReference Include="..\OMG.Domain.Vendor\OMG.Domain.Vendor.csproj" />
     <ProjectReference Include="..\OMG.Infrastructure\OMG.Infrastructure.csproj" />
     <ProjectReference Include="..\OMG.SharedKernel\OMG.SharedKernel.csproj" />
   </ItemGroup>

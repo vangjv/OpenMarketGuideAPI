@@ -1,16 +1,15 @@
 ﻿using OMG.Infrastructure.CosmosDbData.Interfaces;
 using Microsoft.Azure.Cosmos;
-using OMG.Domain.Market.Models;
 using OMG.Infrastructure.CosmosDbData.DatabaseModel;
 
 namespace OMG.Infrastructure.CosmosDbData.Repository
 {
-    public class ThreeDModelCollectionRepository : CosmosDbRepository<ThreeDModelCollectionDM>, IThreeDModelCollectionRepository
+    public class VendorRepository : CosmosDbRepository<VendorDM>, IVendorRepository
     {
         /// <summary>
         ///     CosmosDB container name
         /// </summary>
-        public override string ContainerName { get; } = "Metadata";
+        public override string ContainerName { get; } = "Vendors";
 
         /// <summary>
         ///     Generate Id.
@@ -18,16 +17,15 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        //public override string GenerateId(ThreeDModelInfo entity) => $"{entity.MarketId}:{entity.StartDate.ToString("ddMMyyyyHHmmss")}";
-        public override string GenerateId(ThreeDModelCollectionDM entity) => entity.Owner;
+        public override string GenerateId(VendorDM entity) => $"Guid.NewGuid()";
         /// <summary>
         ///     Returns the value of the partition key
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
-        public override PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey("ThreeDModelCollection");
+        public override PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey("Vendor");
 
-        public ThreeDModelCollectionRepository(ICosmosDbContainerFactory factory) : base(factory)
+        public VendorRepository(ICosmosDbContainerFactory factory) : base(factory)
         { }
 
     }

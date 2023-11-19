@@ -17,36 +17,18 @@ namespace OMG.API.Controllers
         }
         // GET: api/models
         [HttpGet]
-        public async Task<ThreeDModelCollection> Get()
+        public async Task<ActionResult<ThreeDModelCollection>> Get()
         {
-            return await _modelsRepo.GetItemAsync("public");
+            var threeDModelCollection = await _modelsRepo.GetItemAsync("public");
+            return Ok(threeDModelCollection.ToThreeDModelCollection());
         }
 
+        [Authorize]
         [HttpGet("me")]
         public async Task<ThreeDModelCollection> GetMine()
         {
             var currentUserOid = User.GetOid();
             return await _modelsRepo.GetItemAsync(currentUserOid);
         }
-
-        //// GET api/models/5
-        //[HttpGet("{id}")]
-        //public async Task<ThreeDModelCollection> Get(string id)
-        //{
-        //    return await _modelsRepo.GetItemAsync(id);
-        //}
-
-        //[Authorize]
-        //// POST api/models
-        //[HttpPost]
-        //public async Task<ActionResult<ThreeDModelCollection>> PostAsync([FromBody] ThreeDModelCollection modelCollection)
-        //{
-        //    var userClaims = User.Claims;
-        //    model.AddThreeDModelCollectionOwnerFromClaimsPrincipal(User);
-        //    model.ThreeDModelCollectionEntityType = ThreeDModelCollectionEntityType.Template;
-        //    var savedThreeDModelCollection = await _modelsRepo.AddItemAsync(model);
-        //    return savedThreeDModelCollection;
-        //}
-
     }
 }
