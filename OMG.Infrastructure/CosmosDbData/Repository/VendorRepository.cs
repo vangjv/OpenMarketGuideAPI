@@ -29,13 +29,9 @@ namespace OMG.Infrastructure.CosmosDbData.Repository
         public async Task<IEnumerable<VendorDM>> GetMyVendorsAsync(string userId)
         {
             string query = @$"SELECT * FROM c WHERE c.Type = 'Vendor' AND ARRAY_CONTAINS(c.Users, {{'Id':  @userId, 'Role':'Owner'}}, true)";
-
             QueryDefinition queryDefinition = new QueryDefinition(query)
                                                     .WithParameter("@userId", userId);
-            string queryString = queryDefinition.QueryText;
-
-            IEnumerable<VendorDM> entities = await this.GetItemsAsync(queryString);
-
+            IEnumerable<VendorDM> entities = await this.GetItemsAsync(queryDefinition);
             return entities;
         }
 
