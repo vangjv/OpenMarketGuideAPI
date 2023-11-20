@@ -19,6 +19,7 @@ namespace OMG.Infrastructure.CosmosDbData.DatabaseModel
         public Vendor ToVendor()
         {
             var vendor = new Vendor();
+            vendor.Id = Id;
             vendor.Name = Name;
             vendor.PrimaryContactName = PrimaryContactName;
             vendor.PrimaryContactTitle = PrimaryContactTitle;
