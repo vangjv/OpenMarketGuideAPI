@@ -32,10 +32,8 @@ builder.Services.AddControllers(opts => opts.SuppressImplicitRequiredAttributeFo
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
-// Cosmos DB for application data
+builder.Services.SetupBlobStorageServices(Configuration);
 builder.Services.SetupCosmosDb(Configuration);
-//builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-//builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddHealthChecks();
 builder.Services.AddCors(options =>
