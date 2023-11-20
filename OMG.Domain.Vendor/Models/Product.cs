@@ -5,6 +5,7 @@
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public List<ProductImage> Images { get; set; } = new List<ProductImage>();
         public List<string> Category { get; set; } = new List<string>();
         public double Price { get; set; }
         public double TaxPercentage { get; set; }
