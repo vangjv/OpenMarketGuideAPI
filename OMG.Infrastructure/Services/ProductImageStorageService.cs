@@ -13,12 +13,12 @@ namespace OMG.Infrastructure.Services
             _blobServiceClient = new BlobServiceClient(connectionString);
         }
 
-        public async Task UploadBlobAsync(string vendorId, string productId, string name, Stream content)
+        public async Task UploadBlobAsync(string vendorId, string productId, string imageId, string imageFileName, Stream content)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(ContainerName);
             await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
 
-            var blobClient = containerClient.GetBlobClient(vendorId + "/" + productId + "/" + name);
+            var blobClient = containerClient.GetBlobClient(GetBlobUrl(vendorId, productId, imageId, imageFileName));
             await blobClient.UploadAsync(content, true);
         }
 
@@ -35,6 +35,11 @@ namespace OMG.Infrastructure.Services
             var blobClient = containerClient.GetBlobClient(blobName);
             var response = await blobClient.DownloadAsync();
             return response.Value.Content;
+        }
+
+        public string GetBlobUrl(string vendorId, string productId, string imageId, string imageFileName)
+        {
+            return $"{vendorId}/{productId}/{imageId}--{imageFileName}";
         }
     }
 }
