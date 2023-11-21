@@ -11,6 +11,8 @@ namespace OMG.Domain.Market.Models
         public List<string> Categories { get; set; }
         public ContactInfo ContactInfo { get; set; }
         public List<Product> Products { get; set; }
+        public string? BillboardImageUrl { get; set; }
+        public double? BillboardScale { get; set; }
 
     }
 }

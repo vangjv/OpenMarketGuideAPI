@@ -14,6 +14,8 @@ namespace OMG.Infrastructure.CosmosDbData.DatabaseModel
             Categories = vendor.Categories;
             ContactInfo = vendor.ContactInfo;
             Products = vendor.Products;
+            BillboardImageUrl = vendor.BillboardImageUrl;
+            BillboardScale = vendor.BillboardScale;
         }
 
         public Vendor ToVendor()
@@ -26,6 +28,8 @@ namespace OMG.Infrastructure.CosmosDbData.DatabaseModel
             vendor.Categories = Categories;
             vendor.ContactInfo = ContactInfo;
             vendor.Products = Products;
+            vendor.BillboardImageUrl = BillboardImageUrl;
+            vendor.BillboardScale = BillboardScale;
             return vendor;
         }
     }
