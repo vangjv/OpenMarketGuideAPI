@@ -1,6 +1,6 @@
 # OpenMarketGuide API for Google’s Immersive Geospatial Challenge
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.6.
+ALSO SEE https://github.com/vangjv/OpenMarketGuideUI
 
 ## Inspiration
 I've been to a plant sale where it was time consuming looking through multiple vendors just to find out that the plant I was looking for was not being sold. Wouldn't it be nice to be able to search for what you are looking for and pinpoint exactly which vendor is selling it?  Although we all have done our share of window shopping. Nowadays, most people can do their shopping in the comfort of the own homes.  For open markets such as farmer's markets and crafts sales, sometimes it’s easier to glance through a market place visually rather than reading a description of what is being sold. 
